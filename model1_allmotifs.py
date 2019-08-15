@@ -94,13 +94,15 @@ def import_motifs(path, regions):
                 if row[0] not in motif_foot:
                     motif_foot[row[0]] = []
                 motif_foot[row[0]].append([int(row[1]), int(row[2])])
-        
-        current_motif = { chrm: motif_foot[chrm] for chrm in chromosomes } # filter out unwanted chromosomes
+       
+        current_motif = { chrm: motif_foot[chrm] for chrm in (chromosomes & motif_foot.keys()) } # filter out unwanted chromosomes
         motif_col = []
         for chrm in chromosomes:
             i = 0
             for region in regions[chrm]:
-                if i >= len(current_motif[chrm]):
+                if chrm not in current_motif.keys():
+                    motif_col.append(0)
+                elif i >= len(current_motif[chrm]):
                     motif_col.append(0)
                 else:
                     motif_reg = current_motif[chrm][i]
@@ -145,6 +147,7 @@ Xtrain = np.transpose(import_motifs(path, output))
 
 # make X, Y into torch tensors
 Xtrain = torch.from_numpy(Xtrain).float()
+print(Xtrain.shape)
 Ytrain = torch.from_numpy(Ytrain).float()
 
 # build the neural net
@@ -177,7 +180,7 @@ criterion = nn.BCELoss()
 Xtrain, Ytrain = Xtrain.to(device), Ytrain.to(device)
 
 # training
-epochs = 3
+epochs = 1000
 for epoch in range(1,epochs+1):
 	model.train() # put the model in train mode
 	optimizer.zero_grad() # null my gradients otherwise they will accumulate
@@ -191,4 +194,4 @@ for epoch in range(1,epochs+1):
 	loss.backward(loss) # finds grad * loss (remember this is a weighted sum, where weight = loss)
 	optimizer.step() # update my parameters
 
-	
+
