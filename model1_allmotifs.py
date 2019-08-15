@@ -140,7 +140,7 @@ for chrm in chromosomes:
 Ytrain = np.array(Ytrain)
 
 # create Xtrain
-path = "data/CENTIPEDEdata/motif.combo"
+path = "data/CENTIPEDEdata/motif.combo" # all motif files
 Xtrain = np.transpose(import_motifs(path, output))
 
 # make X, Y into torch tensors
@@ -163,7 +163,8 @@ class Net(nn.Module):
 device = torch.device("cpu")
 
 # define my model
-model = Net(5).to(device)
+motif_num = Xtrain.shape[1] # this is now an int
+model = Net(motif_num).to(device)
 
 # choose optimizer
 learning_rate = 0.001
@@ -176,7 +177,7 @@ criterion = nn.BCELoss()
 Xtrain, Ytrain = Xtrain.to(device), Ytrain.to(device)
 
 # training
-epochs = 50
+epochs = 3
 for epoch in range(1,epochs+1):
 	model.train() # put the model in train mode
 	optimizer.zero_grad() # null my gradients otherwise they will accumulate
@@ -190,22 +191,4 @@ for epoch in range(1,epochs+1):
 	loss.backward(loss) # finds grad * loss (remember this is a weighted sum, where weight = loss)
 	optimizer.step() # update my parameters
 
-
-''' tensorflow model
-model = tf.keras.models.Sequential([
-    tf.keras.layers.Dense(32, activation=tf.nn.relu),
-    tf.keras.layers.Dense(32, activation=tf.nn.relu),
-    tf.keras.layers.Dense(2, activation=tf.nn.softmax)
-])
-
-model.compile(optimizer='adam',
-              loss=tf.keras.losses.sparse_categorical_crossentropy,
-              metris=['accuracy'])
-model.fit(Xtrain, Ytrain, batch_size = 32, epochs=3, validation_split = 0.1)
-'''
-
-
-# this is some change I made
-# Before I add, commit, push this change
-# I will pull
-# what will happen?
+	
