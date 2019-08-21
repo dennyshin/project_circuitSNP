@@ -25,6 +25,12 @@ Use the circuitSNP conda environment stored in C:\Anaconda3\envs\circuitSNP
 
 torchmodel1.py
     - my first working model
-
+	- this was trained for only one tissue type
+	- need to streamline the data preprocessing steps
+		- are there any regions that we may want to filter out?
+		- re-evaluate our choice of regions
+	    - make use of pytorch's Dataset, DataLoader modules
+		
+need to start implementing dsQTL and centiSNP data
 
 not all files are the same as the ones on spartan
