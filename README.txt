@@ -30,7 +30,19 @@ torchmodel1.py
 		- are there any regions that we may want to filter out?
 		- re-evaluate our choice of regions
 	    - make use of pytorch's Dataset, DataLoader modules
+			
+model2_allmotifs.py
+	- fixed the NN architecture to actually have 2 hidden layers
+	- has 301bp long regions
+		- this is incorrect and fixed in next version
+	- initialise weights with xavier uniform for all layers
+		- emprically shows quicker learning at start
 		
+model3.py
+	- all models now work with all motifs from here on
+		- merely change the dir of the motifs if you want to work with a subsample
+	- has correct 300bp long regions
+
 need to start implementing dsQTL and centiSNP data
 
 not all files are the same as the ones on spartan
