@@ -42,6 +42,11 @@ model3.py
 	- all models now work with all motifs from here on
 		- merely change the dir of the motifs if you want to work with a subsample
 	- has correct 300bp long regions
+	
+model3_longer.py
+	- 100,000 epochs instead of 1000
+	- 1000 epochs seems to converge at around 0.23 loss
+	- 1000 epochs took around 3 hrs +- 20 mins
 
 need to start implementing dsQTL and centiSNP data
 
