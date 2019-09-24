@@ -152,11 +152,13 @@ class Net(nn.Module):
     def __init__(self, input_dim):
         super().__init__()
         self.fc1 = nn.Linear(input_dim, 32)
-        self.fc2 = nn.Linear(32, 2)
+        self.fc2 = nn.Linear(32, 32)
+        self.fc3 = nn.Linear(32, 2)
 
     def forward(self, x):
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
+        x = F.relu(self.fc3(x))
         return F.softmax(x, dim=1)
 
 # define my device
@@ -190,22 +192,3 @@ for epoch in range(1,epochs+1):
 	loss.backward(loss) # finds grad * loss (remember this is a weighted sum, where weight = loss)
 	optimizer.step() # update my parameters
 
-
-''' tensorflow model
-model = tf.keras.models.Sequential([
-    tf.keras.layers.Dense(32, activation=tf.nn.relu),
-    tf.keras.layers.Dense(32, activation=tf.nn.relu),
-    tf.keras.layers.Dense(2, activation=tf.nn.softmax)
-])
-
-model.compile(optimizer='adam',
-              loss=tf.keras.losses.sparse_categorical_crossentropy,
-              metris=['accuracy'])
-model.fit(Xtrain, Ytrain, batch_size = 32, epochs=3, validation_split = 0.1)
-'''
-
-
-# this is some change I made
-# Before I add, commit, push this change
-# I will pull
-# what will happen?
