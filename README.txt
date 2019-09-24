@@ -52,6 +52,19 @@ model3_100ke.py
 	- 100,000 epochs
 	- 100,000 epochs timed out with a 4 day limit
 
+model4.py
+	- out of 1,851,152 instances 70% training, 20% validation, 10% test
+	- datasets were shuffled before split
+	- 3 versions with 1k, 10k, 100k epochs exist
+	- plotting included
+	- lowered the learning rate to 0.0001
+		- should use an adaptive learning rate: faster at start, slower later
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+should use an adaptive learning rate: faster at start, slower later
+need to start a separate dedicated data prep and then pipe the SAME data for all models
+need to implement contingency table
 need to start implementing dsQTL and centiSNP data
 
 not all files are the same as the ones on spartan
