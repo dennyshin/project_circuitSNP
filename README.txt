@@ -60,11 +60,18 @@ model4.py
 	- lowered the learning rate to 0.0001
 		- should use an adaptive learning rate: faster at start, slower later
 
+model5.py
+	- current architecture seems to converge at ~0.25 loss
+	- should be set to ~5k epochs
+	- no adaptive learning or early stopiing yet
+	- includes confusion matrix, precision, recall for test predictions
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 should use an adaptive learning rate: faster at start, slower later
+need to implement early stopping
+need to implement different architectures
 need to start a separate dedicated data prep and then pipe the SAME data for all models
-need to implement contingency table
 need to start implementing dsQTL and centiSNP data
 
 not all files are the same as the ones on spartan
