@@ -69,13 +69,28 @@ model5.py
 model6.py
 	- major directory changes
 		- as such previous model scripts will likely not function properly
-	- split the data prep process to a seperate script
-	
+	- split the data prep process to a separate script
+	- precision recall added
+	- ROC added
+	- area under PR, ROC curve added
 
------------------------------------------------------------------------------------------------------------------------------------------------
+model7.py
+	- implement multiple models
+	- 5k epochs
+	- MLP
+	- A: 5 5
+	- B: 5 5 5 5 5
+	- C: 5 5 5 5 5 5 5 5 5 5
+	- D: 32 32
+	- E: 64 64
+	- F: 256 256
+	- G: 256 5
+	- H: 5 256
+	- I: 32 32 32 32 32
+
+--------------------------------------------------------------------------------------------------------------------
 
 should use an adaptive learning rate: faster at start, slower later
-need to implement early stopping
 need to implement different architectures
 need to start implementing dsQTL and centiSNP data
 

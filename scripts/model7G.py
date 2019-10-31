@@ -28,8 +28,8 @@ device = torch.device("cpu")
 class Net(nn.Module):
 	def __init__(self, input_dim):
 		super().__init__()
-		self.fc1 = nn.Linear(input_dim, 5)
-		self.fc2 = nn.Linear(5, 5)
+		self.fc1 = nn.Linear(input_dim, 256)
+		self.fc2 = nn.Linear(256, 5)
 		self.fc3 = nn.Linear(5, 2)
 
 		# these are still random for each new model we create
@@ -59,7 +59,7 @@ Xtrain, Ytrain = Xtrain.to(device), Ytrain.to(device)
 Xval, Yval = Xval.to(device), Yval.to(device)
 
 # training and validation
-n_epochs = 10
+n_epochs = 5000
 epochs = list(range(1, n_epochs+1))
 train_loss = []
 val_loss = []
@@ -86,7 +86,7 @@ for epoch in epochs:
 	# save model with lowest validation loss
 	if epoch > 1:
 		if val_loss[epoch-1] <= val_loss[epoch-2]:
-			torch.save(model, "trained_models/model6.pt")
+			torch.save(model, "trained_models/model7G.pt")
 
 # plot loss
 def plot_loss(training_loss, validation_loss):
@@ -95,6 +95,6 @@ def plot_loss(training_loss, validation_loss):
 	ax.plot(epochs, validation_loss, "g", label = "validation loss")
 	ax.set_title("model loss")
 	ax.legend()
-	fig.savefig('imgs/model6.png')
+	fig.savefig('imgs/model7G.png')
 
 plot_loss(train_loss, val_loss)

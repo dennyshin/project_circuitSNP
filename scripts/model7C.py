@@ -30,18 +30,41 @@ class Net(nn.Module):
 		super().__init__()
 		self.fc1 = nn.Linear(input_dim, 5)
 		self.fc2 = nn.Linear(5, 5)
-		self.fc3 = nn.Linear(5, 2)
+		self.fc3 = nn.Linear(5, 5)
+		self.fc4 = nn.Linear(5, 5)
+		self.fc5 = nn.Linear(5, 5)
+		self.fc6 = nn.Linear(5, 5)
+		self.fc7 = nn.Linear(5, 5)
+		self.fc8 = nn.Linear(5, 5)
+		self.fc9 = nn.Linear(5, 5)
+		self.fc10 = nn.Linear(5, 5)
+		self.fc11 = nn.Linear(5, 2)
 
 		# these are still random for each new model we create
-		nn.init.xavier_uniform_(self.fc1.weight) 
+		nn.init.xavier_uniform_(self.fc1.weight)
 		nn.init.xavier_uniform_(self.fc2.weight)
 		nn.init.xavier_uniform_(self.fc3.weight)
+		nn.init.xavier_uniform_(self.fc4.weight) 
+		nn.init.xavier_uniform_(self.fc5.weight)
+		nn.init.xavier_uniform_(self.fc6.weight)
+		nn.init.xavier_uniform_(self.fc7.weight) 
+		nn.init.xavier_uniform_(self.fc8.weight)
+		nn.init.xavier_uniform_(self.fc9.weight)
+		nn.init.xavier_uniform_(self.fc10.weight)
 
 	def forward(self, x):
 		x = F.relu(self.fc1(x))
 		x = F.relu(self.fc2(x))
+		x = F.relu(self.fc3(x))
+		x = F.relu(self.fc4(x))
+		x = F.relu(self.fc5(x))
+		x = F.relu(self.fc6(x))
+		x = F.relu(self.fc7(x))
+		x = F.relu(self.fc8(x))
+		x = F.relu(self.fc9(x))
+		x = F.relu(self.fc10(x))
 		# do not put relu on the last layer!
-		return F.softmax(self.fc3(x), dim=1)
+		return F.softmax(self.fc11(x), dim=1)
 
 # define my model
 motif_num = Xtrain.shape[1] # this is now an int
@@ -59,7 +82,7 @@ Xtrain, Ytrain = Xtrain.to(device), Ytrain.to(device)
 Xval, Yval = Xval.to(device), Yval.to(device)
 
 # training and validation
-n_epochs = 10
+n_epochs = 5000
 epochs = list(range(1, n_epochs+1))
 train_loss = []
 val_loss = []
@@ -86,7 +109,7 @@ for epoch in epochs:
 	# save model with lowest validation loss
 	if epoch > 1:
 		if val_loss[epoch-1] <= val_loss[epoch-2]:
-			torch.save(model, "trained_models/model6.pt")
+			torch.save(model, "trained_models/model7C.pt")
 
 # plot loss
 def plot_loss(training_loss, validation_loss):
@@ -95,6 +118,6 @@ def plot_loss(training_loss, validation_loss):
 	ax.plot(epochs, validation_loss, "g", label = "validation loss")
 	ax.set_title("model loss")
 	ax.legend()
-	fig.savefig('imgs/model6.png')
+	fig.savefig('imgs/model7C.png')
 
 plot_loss(train_loss, val_loss)

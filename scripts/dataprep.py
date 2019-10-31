@@ -80,7 +80,9 @@ def create_regions(chromosomes, tissue, openALL):
 # training input is a matrix containing the instances and features
 def import_motifs(path, regions):
 	training_input = []
+	motifnames = []
 	for motiffile in os.listdir(path):
+		motifnames.append(motiffile)
 		motif_foot = {}
 		with open(os.path.join(path, motiffile)) as f:
 			for line in f:
@@ -116,7 +118,7 @@ def import_motifs(path, regions):
 		
 		training_input.append(motif_col)
 	
-	return training_input
+	return training_input, motifnames
 
 print("starting...")
 # print(os.path.abspath(os.curdir))
@@ -152,10 +154,60 @@ print("made Y")
 
 # build instances
 path = "rawdata/CENTIPEDEdata/motif.combo" # all motif files
-X = np.transpose(np.array(import_motifs(path, regions), dtype=int))
+X, motifnames = import_motifs(path, regions)
+X = np.transpose(np.array(X, dtype=int))
 
 print("made X")
 
-# save to txt
+DATA = np.concatenate((X,Y), axis=1)
+
+# shuffle and split data
+# 70% training, 20% validation, 10% test
+train_len = int(np.shape(Y)[0]*0.7) # rounded down to nearest integer
+val_len = int(np.shape(Y)[0]*0.9)
+
+np.random.shuffle(DATA) # row shuffle
+
+train_data = DATA[ :train_len]
+val_data = DATA[train_len:val_len]
+test_data = DATA[val_len: ]
+
+Xtrain = np.hsplit(train_data, [-2])[0]
+Ytrain = np.hsplit(train_data, [-2])[1]
+Xval = np.hsplit(val_data, [-2])[0]
+Yval = np.hsplit(val_data, [-2])[1]
+Xtest = np.hsplit(test_data, [-2])[0]
+Ytest = np.hsplit(test_data, [-2])[1]
+
+print("saving...")
+
+# save entire dataset to txt
 np.savetxt('data/LCL_X.out', X, fmt='%i')
 np.savetxt('data/LCL_Y.out', Y, fmt='%i')
+
+# save the motif names in a file
+# these are the column labels and therefore won't move when we shuffle our rows
+with open('data/motif_names.txt', 'w') as f:
+	for motif_name in motifnames:
+		f.write("%s\n" % motif_name)
+
+# save each set to txt
+np.savetxt('data/LCL_Xtrain.out', Xtrain, fmt='%i')
+np.savetxt('data/LCL_Ytrain.out', Ytrain, fmt='%i')
+np.savetxt('data/LCL_Xval.out', Xval, fmt='%i')
+np.savetxt('data/LCL_Yval.out', Yval, fmt='%i')
+np.savetxt('data/LCL_Xtest.out', Xtest, fmt='%i')
+np.savetxt('data/LCL_Ytest.out', Ytest, fmt='%i')
+
+
+
+
+# work with dsqtl,centisnp files
+
+# grab a region
+# check if there is a centisnp for that region
+# if not go to next region
+# if yes grab the training instance for that region
+# given the motif name of the centisnp. create a new testing instance with the proper column adjusted
+
+# will maybe be easier to do if i have a dict with keys = regions, values = training instance for that region
