@@ -27,11 +27,6 @@ class Net(nn.Module):
 		self.fc2 = nn.Linear(5, 5)
 		self.fc3 = nn.Linear(5, 2)
 
-		# these are still random for each new model we create
-		nn.init.xavier_uniform_(self.fc1.weight) 
-		nn.init.xavier_uniform_(self.fc2.weight)
-		nn.init.xavier_uniform_(self.fc3.weight)
-
 	def forward(self, x):
 		x = F.relu(self.fc1(x))
 		x = F.relu(self.fc2(x))
