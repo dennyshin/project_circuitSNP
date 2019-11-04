@@ -65,7 +65,7 @@ thresholds = np.sort(np.unique(np.around(Ytest_pred[:,1], 2)))
 for threshold in thresholds:
 	# x is the prediction value for 1 (open region)
 	# if x <= threshold, then predict 1
-	predictions = np.array([int(x <= threshold) for x in Ytest_pred[:,1]], dtype=int)
+	predictions = np.array([int(x >= threshold) for x in Ytest_pred[:,1]], dtype=int)
 	pred_true = np.array(list(zip(predictions, true_labels)))
 
 	true_pos = sum([x[0] == x[1] == 1 for x in pred_true])
