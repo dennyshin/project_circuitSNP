@@ -63,6 +63,7 @@ n_epochs = 5000
 epochs = list(range(1, n_epochs+1))
 train_loss = []
 val_loss = []
+min_val_loss = 1
 for epoch in epochs:
 	model.train() # put the model in train mode
 	optimizer.zero_grad() # null my gradients otherwise they will accumulate
@@ -84,9 +85,9 @@ for epoch in epochs:
 	val_loss.append(loss)
 
 	# save model with lowest validation loss
-	if epoch > 1:
-		if val_loss[epoch-1] <= val_loss[epoch-2]:
-			torch.save(model, "trained_models/model7A.pt")
+	if loss < min_val_loss:
+		min_val_loss = loss
+		torch.save(model, "trained_models/model7A.pt")
 
 # plot loss
 def plot_loss(training_loss, validation_loss):

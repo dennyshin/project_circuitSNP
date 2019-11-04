@@ -93,9 +93,9 @@ for epoch in epochs:
 	val_loss.append(loss)
 
 	# save model with lowest validation loss
-	if epoch > 1:
-		if val_loss[epoch-1] <= val_loss[epoch-2]:
-			torch.save(model, "trained_models/model7I.pt")
+	if loss < min_val_loss:
+		min_val_loss = loss
+		torch.save(model, "trained_models/model7I.pt")
 
 # plot loss
 def plot_loss(training_loss, validation_loss):

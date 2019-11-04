@@ -61,7 +61,7 @@ precision = []
 recall = []
 specificity = []
 FPR = [] # 1-specificity = False Positive Rate
-thresholds = np.sort(np.unique(Ytest_pred[:,1]))
+thresholds = np.sort(np.unique(np.around(Ytest_pred[:,1], 2)))
 for threshold in thresholds:
 	# x is the prediction value for 1 (open region)
 	# if x <= threshold, then predict 1
