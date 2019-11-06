@@ -28,12 +28,12 @@ device = torch.device("cpu")
 class Net(nn.Module):
 	def __init__(self, input_dim):
 		super().__init__()
-		self.fc1 = nn.Linear(input_dim, 64)
-		self.fc2 = nn.Linear(64, 64)
-		self.fc3 = nn.Linear(64, 2)
+		self.fc1 = nn.Linear(input_dim, 5)
+		self.fc2 = nn.Linear(5, 5)
+		self.fc3 = nn.Linear(5, 2)
 
 		# these are still random for each new model we create
-		nn.init.xavier_uniform_(self.fc1.weight) 
+		nn.init.xavier_uniform_(self.fc1.weight)
 		nn.init.xavier_uniform_(self.fc2.weight)
 		nn.init.xavier_uniform_(self.fc3.weight)
 
@@ -43,9 +43,8 @@ class Net(nn.Module):
 		# do not put relu on the last layer!
 		return F.softmax(self.fc3(x), dim=1)
 
-# define my model
-motif_num = Xtrain.shape[1] # this is now an int
-model = Net(motif_num).to(device)
+# load model
+model = torch.load("trained_models/model7A.pt").to(device)
 
 # choose optimizer
 learning_rate = 0.0001
@@ -59,8 +58,8 @@ Xtrain, Ytrain = Xtrain.to(device), Ytrain.to(device)
 Xval, Yval = Xval.to(device), Yval.to(device)
 
 # training and validation
-n_epochs = 5000
-epochs = list(range(1, n_epochs+1))
+n_epochs = 10000
+epochs = list(range(5000, n_epochs+1))
 train_loss = []
 val_loss = []
 min_val_loss = 1
@@ -72,6 +71,7 @@ for epoch in epochs:
 
 	loss = criterion(Ytrain_pred, Ytrain) # calculate my loss
 	train_loss.append(loss)
+
 
 	loss.backward(loss) # finds grad * loss (remember this is a weighted sum, where weight = loss)
 	optimizer.step() # update my parameters
@@ -87,7 +87,7 @@ for epoch in epochs:
 	# save model with lowest validation loss
 	if loss < min_val_loss:
 		min_val_loss = loss
-		torch.save(model, "trained_models/model7E.pt")
+		torch.save(model, "trained_models/model7A.pt")
 	elif loss >= min_val_loss + 0.1:
 		break
 
@@ -98,6 +98,10 @@ def plot_loss(training_loss, validation_loss):
 	ax.plot(epochs, validation_loss, "g", label = "validation loss")
 	ax.set_title("model loss")
 	ax.legend()
-	fig.savefig('imgs/model7E.png')
+	fig.savefig('imgs/model7A.png')
 
 plot_loss(train_loss, val_loss)
+
+# save loss
+np.savetxt('trained_models/model7A_trainloss.txt', train_loss, fmt='%i')
+np.savetxt('trained_models/model7A_valloss.txt', val_loss, fmt='%i')
