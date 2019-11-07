@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Copy/paste this job script into a text file and submit with the command:
+#    sbatch thefilename
+
+
+#SBATCH --job-name=model7E                # A single job name for the array
+#SBATCH --cpus-per-task=1                       # Number of cores
+#SBATCH --ntasks=1                       # All cores on one machine
+#SBATCH --mem 100000                 # Memory request
+#SBATCH -t 0-12:00                  # Maximum execution time (D-HH:MM)
+
+#SBATCH -p mig                     # Partition
+#SBATCH --account=punim0614
+
+#SBATCH --mail-user=hyunsuks@student.unimelb.edu.au   # email address
+#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
+
+#SBATCH -o /data/cephfs/punim0614/shin/project_circuitSNP/outputs/model7E.out        # Standard output
+#SBATCH -e /data/cephfs/punim0614/shin/project_circuitSNP/outputs/model7E.err        # Standard error
+
+
+
+# LOAD MODULES
+module load Python/3.7.3-spartan_gcc-8.1.0
+
+# INSERT CODE
+source venv1/bin/activate
+python scripts/model7E.py

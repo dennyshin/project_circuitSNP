@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 Xtest = np.loadtxt('data/LCL_Xtest.out', dtype=int)
 Ytest = np.loadtxt('data/LCL_Ytest.out', dtype=int)
 
-print("loaded data")
+print("data loaded")
 
 # make data into torch tensors
 Xtest = torch.from_numpy(Xtest).float()
@@ -38,15 +38,13 @@ class Net(nn.Module):
 # load model
 model = torch.load("trained_models/model7D.pt").to(device)
 
-print("loaded model")
+print("model loaded")
 
 # choose my criteria
 criterion = nn.BCELoss()
 
 # send data to device
 Xtest, Ytest = Xtest.to(device), Ytest.to(device)
-
-print("test starting...")
 
 # test
 model.eval()
@@ -55,25 +53,21 @@ with torch.no_grad():
 test_loss = criterion(Ytest_pred, Ytest)
 
 print("test loss: ", test_loss.numpy())
-print()
-print("starting analysis")
+
+print("starting analysis...")
 
 # analysis
 Ytest_pred, Ytest = Ytest_pred.numpy(), Ytest.numpy()
 true_labels = np.array(Ytest[:,1], dtype=int)
-print(true_labels)
 
 N = true_labels.shape[0] # total number of test instances
 n = sum(true_labels) # total number of true label=1
-print(n)
 
 precision = []
 recall = []
 specificity = []
 FPR = [] # 1-specificity = False Positive Rate
 thresholds = np.sort(np.unique(np.around(Ytest_pred[:,1], 2)))
-print("made thresholds")
-print(thresholds.shape)
 for threshold in thresholds:
 	# x is the prediction value for 1 (open region)
 	# if x <= threshold, then predict 1
@@ -81,21 +75,21 @@ for threshold in thresholds:
 	pred_true = np.array(list(zip(predictions, true_labels)))
 
 	true_pos = sum([x[0] == x[1] == 1 for x in pred_true])
-	positives = sum(list(predictions)) # number of times model guess label=1
+	positives = sum([x[0] == 1 for x in pred_true]) # number of times model guess label=1
 	true_neg = sum([x[0] == x[1] == 0 for x in pred_true])
 
-	PPV = true_pos / positives # precision
-	TPR = true_pos / n # recall
-	TNR = true_neg / (N-n) # specificity
+	PPV = round(true_pos / positives, 6) # precision
+	TPR = round(true_pos / n, 6) # recall
+	TNR = round(true_neg / (N-n), 6) # specificity
 
 	precision.append(PPV)
 	recall.append(TPR)
 	specificity.append(TNR)
-	FPR.append(1-TNR) # 1-specificity
+	FPR.append(round(1-TNR, 6)) # 1-specificity
 
 # calculate area under curves
-auPRC = np.trapz(precision, x=recall)
-auROC = np.trapz(recall, x=FPR)
+auPRC = round(np.trapz(sorted(precision), x=sorted(recall)), 6)
+auROC = round(np.trapz(sorted(recall), x=sorted(FPR)), 6)
 
 # plot precision-recall
 def plot_PRcurve(recall, precision, imgpath):
@@ -123,3 +117,14 @@ def plot_ROCcurve(FPR, sensitivity, imgpath):
 
 plot_PRcurve(recall, precision, 'imgs/model7D_PRcurve.png')
 plot_ROCcurve(FPR, recall, 'imgs/model7D_ROCcurve.png')
+
+print("saving metics...")
+
+# save metrics
+with open('results/predict7D.txt', 'w') as f:
+	f.write("test_loss: %f\n" % test_loss.numpy())
+	f.write("thresholds, precision, recall, specificity, FPR\n")
+	for i in range(0,len(thresholds)):
+		f.write("%f\t%f\t%f\t%f\t%f\n" % (thresholds[i], precision[i], recall[i], specificity[i], FPR[i]))
+	f.write("auPRC: %f\n" % auPRC)
+	f.write("auROC: %f\n" % auROC)

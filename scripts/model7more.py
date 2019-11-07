@@ -87,7 +87,7 @@ for epoch in epochs:
 	# save model with lowest validation loss
 	if loss < min_val_loss:
 		min_val_loss = loss
-		torch.save(model, "trained_models/model7A.pt")
+		torch.save(model, "trained_models/model7A_more.pt")
 	elif loss >= min_val_loss + 0.1:
 		break
 
@@ -98,7 +98,7 @@ def plot_loss(training_loss, validation_loss):
 	ax.plot(epochs, validation_loss, "g", label = "validation loss")
 	ax.set_title("model loss")
 	ax.legend()
-	fig.savefig('imgs/model7A.png')
+	fig.savefig('imgs/model7A_more.png')
 
 plot_loss(train_loss, val_loss)
 

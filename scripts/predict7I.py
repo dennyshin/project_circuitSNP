@@ -12,6 +12,8 @@ import matplotlib.pyplot as plt
 Xtest = np.loadtxt('data/LCL_Xtest.out', dtype=int)
 Ytest = np.loadtxt('data/LCL_Ytest.out', dtype=int)
 
+print("data loaded")
+
 # make data into torch tensors
 Xtest = torch.from_numpy(Xtest).float()
 Ytest = torch.from_numpy(Ytest).float()
@@ -42,6 +44,8 @@ class Net(nn.Module):
 # load model
 model = torch.load("trained_models/model7I.pt").to(device)
 
+print("model loaded")
+
 # choose my criteria
 criterion = nn.BCELoss()
 
@@ -55,6 +59,8 @@ with torch.no_grad():
 test_loss = criterion(Ytest_pred, Ytest)
 
 print("test loss: ", test_loss.numpy())
+
+print("starting analysis...")
 
 # analysis
 Ytest_pred, Ytest = Ytest_pred.numpy(), Ytest.numpy()
@@ -88,8 +94,8 @@ for threshold in thresholds:
 	FPR.append(round(1-TNR, 6)) # 1-specificity
 
 # calculate area under curves
-auPRC = round(np.trapz(precision, x=recall), 6)
-auROC = round(np.trapz(recall, x=FPR), 6)
+auPRC = round(np.trapz(sorted(precision), x=sorted(recall)), 6)
+auROC = round(np.trapz(sorted(recall), x=sorted(FPR)), 6)
 
 # plot precision-recall
 def plot_PRcurve(recall, precision, imgpath):
@@ -117,3 +123,14 @@ def plot_ROCcurve(FPR, sensitivity, imgpath):
 
 plot_PRcurve(recall, precision, 'imgs/model7I_PRcurve.png')
 plot_ROCcurve(FPR, recall, 'imgs/model7I_ROCcurve.png')
+
+print("saving metics...")
+
+# save metrics
+with open('results/predict7I.txt', 'w') as f:
+	f.write("test_loss: %f\n" % test_loss.numpy())
+	f.write("thresholds, precision, recall, specificity, FPR\n")
+	for i in range(0,len(thresholds)):
+		f.write("%f\t%f\t%f\t%f\t%f\n" % (thresholds[i], precision[i], recall[i], specificity[i], FPR[i]))
+	f.write("auPRC: %f\n" % auPRC)
+	f.write("auROC: %f\n" % auROC)

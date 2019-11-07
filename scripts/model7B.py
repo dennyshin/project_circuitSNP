@@ -91,12 +91,13 @@ for epoch in epochs:
 	loss = criterion(Yval_pred, Yval)
 	val_loss.append(loss)
 
-	print("epoch: ", epoch, f", loss: {loss.item(): f}")
+	print("epoch: ", epoch, f", val_loss: {loss.item(): f}")
 
 	# save model with lowest validation loss
 	if loss < min_val_loss:
 		min_val_loss = loss
 		torch.save(model, "trained_models/model7B.pt")
+		opt_epoch = epoch
 	elif loss >= min_val_loss + 0.1:
 		break
 
@@ -110,3 +111,9 @@ def plot_loss(training_loss, validation_loss):
 	fig.savefig('imgs/model7B.png')
 
 plot_loss(train_loss, val_loss)
+
+# save loss
+with open('trained_models/model7B_opt.txt', 'w') as f:
+	f.write("min val loss = %f\t at epoch %i" % (min_val_loss, opt_epoch))
+np.savetxt('trained_models/model7B_trainloss.txt', train_loss, fmt='%f')
+np.savetxt('trained_models/model7B_valloss.txt', val_loss, fmt='%f')

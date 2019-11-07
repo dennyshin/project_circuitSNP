@@ -185,6 +185,12 @@ print("saving...")
 np.savetxt('data/LCL_X.out', X, fmt='%i')
 np.savetxt('data/LCL_Y.out', Y, fmt='%i')
 
+# save regions
+with open('data/regions.txt', 'w') as f:
+	for chrm in regions.keys():
+		for region in regions[chrm]:
+			f.write("%s\t%i\t%i\n" % (chrm, region[0], region[1]))
+
 # save the motif names in a file
 # these are the column labels and therefore won't move when we shuffle our rows
 with open('data/motif_names.txt', 'w') as f:
@@ -198,16 +204,3 @@ np.savetxt('data/LCL_Xval.out', Xval, fmt='%i')
 np.savetxt('data/LCL_Yval.out', Yval, fmt='%i')
 np.savetxt('data/LCL_Xtest.out', Xtest, fmt='%i')
 np.savetxt('data/LCL_Ytest.out', Ytest, fmt='%i')
-
-
-
-
-# work with dsqtl,centisnp files
-
-# grab a region
-# check if there is a centisnp for that region
-# if not go to next region
-# if yes grab the training instance for that region
-# given the motif name of the centisnp. create a new testing instance with the proper column adjusted
-
-# will maybe be easier to do if i have a dict with keys = regions, values = training instance for that region
