@@ -2,9 +2,6 @@ import numpy as np
 import os
 
 # load data
-# print("loading X")
-# X = np.loadtxt('data/LCL_X.out', dtype=int)
-
 print('loading regions...')
 regions = {}
 with open('data/regions.txt') as f:
@@ -36,25 +33,14 @@ with open('data/LCL_X.out') as f:
 			print(i)
 			i += 1
 
+print()
+print(sum([len(x) for x in regions.values()]))
 print(len(CENTIPEDEinstances.values()))
 print()
 print(len(CENTIPEDEinstances[instance_index]))
 print(len(motifnames))
 
 print("data loaded")
-
-
-# X = np.array([[1,2], [3,4], [5,6]], dtype=int)
-# indexes = []
-# for chrm in ['chr1']:
-# 	for region in regions[chrm][0:3]:
-# 		instance_index = str(chrm + "-" + str(region[0]) + "-" + str(region[1]))
-# 		indexes.append(instance_index)
-
-# for k,v in zip(indexes, X):
-# 	print(k,":",v)
-
-
 
 file_dir = "rawdata/dsQTL.eval.txt"
 loci = [] # a list of dictionaries
@@ -67,20 +53,11 @@ with open(file_dir) as f:
 			SNP[k] = v
 		loci.append(SNP)
 
-# num_dsQTL = sum([int(x['label']) == 1 for x in loci])
-# print(num_dsQTL)
-
-# for every dictionary in the list loci
-# find the region instance
-# in X for that region, there should be motifs labelled 1 if they are present
-# create a new instance of all 0
-# turn on and off motifs that overlap with the Denger dsQTL SNP
-
 dsQTL_instances = []
-for locus in loci[0:10]: # change later
+for locus in loci: # change later
 	chrm = locus['chr']
 	SNPpos = int(locus['pos0'])
-	isdsQTL = int(locus['label'])
+	isdsQTL = int(locus['label']) # 1 = dsQTL, -1 = not dsQTL
 
 	dsQTLinstance = {}
 	for region in regions[chrm]:
@@ -98,4 +75,15 @@ for locus in loci[0:10]: # change later
 			
 			break
 
-# print(dsQTL_instances)
+with open('data/dsQTLinstances.txt', 'w') as f:
+	f.write("chr\tregion_start\tregion_end\tSNP_position\tdsQTL_label\tinstance\n")
+	for inst in dsQTL_instances:
+		chrm = inst['chr']
+		region_start = inst['region'][0]
+		region_end = inst['region'][1]
+		SNPpos = inst['SNP_pos']
+		instance = inst['instance']
+		isdsQTL = inst['isdsQTL']
+		
+		f.write("%s\t%i\t%i\t%i\t%i\t" % (chrm, region_start, region_end, SNPpos, isdsQTL))
+		f.writelines("%s\n" % instance)

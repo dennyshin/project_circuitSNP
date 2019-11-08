@@ -10,10 +10,10 @@ matplotlib.use("agg")
 import matplotlib.pyplot as plt
 
 # load data
-Xtrain = np.loadtxt('data/LCL_Xtrain.out', dtype=int)
-Ytrain = np.loadtxt('data/LCL_Ytrain.out', dtype=int)
-Xval = np.loadtxt('data/LCL_Xval.out', dtype=int)
-Yval = np.loadtxt('data/LCL_Yval.out', dtype=int)
+Xtrain = np.loadtxt('data/sample/LCL_Xtrain.out', dtype=int)
+Ytrain = np.loadtxt('data/sample/LCL_Ytrain.out', dtype=int)
+Xval = np.loadtxt('data/sample/LCL_Xval.out', dtype=int)
+Yval = np.loadtxt('data/sample/LCL_Yval.out', dtype=int)
 
 # make data into torch tensors
 Xtrain = torch.from_numpy(Xtrain).float()
@@ -84,27 +84,27 @@ for epoch in epochs:
 
 	print("epoch: ", epoch, f", val_loss: {loss.item(): f}")
 
-	# save model with lowest validation loss
-	if loss < min_val_loss:
-		min_val_loss = loss
-		torch.save(model, "trained_models/model7A.pt")
-		opt_epoch = epoch
-	elif loss >= min_val_loss + 0.1:
-		break
+	# # save model with lowest validation loss
+	# if loss < min_val_loss:
+	# 	min_val_loss = loss
+	# 	torch.save(model, "trained_models/model7A.pt")
+	# 	opt_epoch = epoch
+	# elif loss >= min_val_loss + 0.1:
+	# 	break
 
-# plot loss
-def plot_loss(training_loss, validation_loss):
-	fig, ax = plt.subplots()
-	ax.plot(epochs, training_loss, "b", label = "training loss")
-	ax.plot(epochs, validation_loss, "g", label = "validation loss")
-	ax.set_title("model loss")
-	ax.legend()
-	fig.savefig('imgs/model7A.png')
+# # plot loss
+# def plot_loss(training_loss, validation_loss):
+# 	fig, ax = plt.subplots()
+# 	ax.plot(epochs, training_loss, "b", label = "training loss")
+# 	ax.plot(epochs, validation_loss, "g", label = "validation loss")
+# 	ax.set_title("model loss")
+# 	ax.legend()
+# 	fig.savefig('imgs/model7A.png')
 
-plot_loss(train_loss, val_loss)
+# plot_loss(train_loss, val_loss)
 
-# save loss
-with open('trained_models/model7A_opt.txt', 'w') as f:
-	f.write("min val loss = %f\t at epoch %i" % (min_val_loss, opt_epoch))
-np.savetxt('trained_models/model7A_trainloss.txt', train_loss, fmt='%f')
-np.savetxt('trained_models/model7A_valloss.txt', val_loss, fmt='%f')
+# # save loss
+# with open('trained_models/model7A_opt.txt', 'w') as f:
+# 	f.write("min val loss = %f\t at epoch %i" % (min_val_loss, opt_epoch))
+# np.savetxt('trained_models/model7A_trainloss.txt', train_loss, fmt='%f')
+# np.savetxt('trained_models/model7A_valloss.txt', val_loss, fmt='%f')

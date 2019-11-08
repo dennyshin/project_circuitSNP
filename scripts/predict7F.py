@@ -77,8 +77,11 @@ for threshold in thresholds:
 	true_pos = sum([x[0] == x[1] == 1 for x in pred_true])
 	positives = sum([x[0] == 1 for x in pred_true]) # number of times model guess label=1
 	true_neg = sum([x[0] == x[1] == 0 for x in pred_true])
-
-	PPV = round(true_pos / positives, 6) # precision
+	
+	if positives == true_pos == 0:
+		PPV = round(1, 6)
+	else:
+		PPV = round(true_pos / positives, 6) # precision
 	TPR = round(true_pos / n, 6) # recall
 	TNR = round(true_neg / (N-n), 6) # specificity
 
