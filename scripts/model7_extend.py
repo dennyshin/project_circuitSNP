@@ -59,7 +59,7 @@ Xval, Yval = Xval.to(device), Yval.to(device)
 
 # training and validation
 n_epochs = 10000
-epochs = list(range(5000, n_epochs+1))
+epochs = list(range(5001, n_epochs+1))
 train_loss = []
 val_loss = []
 min_val_loss = 1
@@ -88,6 +88,7 @@ for epoch in epochs:
 	if loss < min_val_loss:
 		min_val_loss = loss
 		torch.save(model, "trained_models/model7A_more.pt")
+		opt_epoch = epoch
 	elif loss >= min_val_loss + 0.1:
 		break
 
@@ -103,5 +104,7 @@ def plot_loss(training_loss, validation_loss):
 plot_loss(train_loss, val_loss)
 
 # save loss
-np.savetxt('trained_models/model7A_trainloss.txt', train_loss, fmt='%i')
-np.savetxt('trained_models/model7A_valloss.txt', val_loss, fmt='%i')
+with open('trained_models/model7A_opt_more.txt', 'w') as f:
+	f.write("min val loss = %f\t at epoch %i" % (min_val_loss, opt_epoch))
+np.savetxt('trained_models/model7A_trainloss_more.txt', train_loss, fmt='%i')
+np.savetxt('trained_models/model7A_valloss_more.txt', val_loss, fmt='%i')
