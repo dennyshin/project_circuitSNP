@@ -52,7 +52,7 @@ class Net(nn.Module):
 		return F.softmax(self.fc11(x), dim=1)
 
 # load model
-model = torch.load("trained_models/model7C.pt").to(device)
+model = torch.load("finished_models/model7C.pt").to(device)
 
 print("model loaded")
 
@@ -142,8 +142,8 @@ print("saving metics...")
 # save metrics
 with open('results/predict7C.txt', 'w') as f:
 	f.write("test_loss: %f\n" % test_loss.numpy())
+	f.write("auPRC: %f\n" % auPRC)
+	f.write("auROC: %f\n" % auROC)
 	f.write("thresholds, precision, recall, specificity, FPR\n")
 	for i in range(0,len(thresholds)):
 		f.write("%f\t%f\t%f\t%f\t%f\n" % (thresholds[i], precision[i], recall[i], specificity[i], FPR[i]))
-	f.write("auPRC: %f\n" % auPRC)
-	f.write("auROC: %f\n" % auROC)

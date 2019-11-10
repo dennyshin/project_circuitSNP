@@ -92,6 +92,5 @@ model7.py
 
 should stop using np.savetxt and np.loadtxt (use pd instead)
 should use an adaptive learning rate: faster at start, slower later
-need to start implementing dsQTL and centiSNP data
 
 not all files are the same as the ones on spartan

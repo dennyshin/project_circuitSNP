@@ -133,7 +133,7 @@ for i in range(0, len(dsQTL_instances)):
 
 # save
 with open('data/dsQTL_instances.txt', 'w') as f:
-	f.write("chr\tregion_start\tregion_end\tSNP_position\tdsQTL_label\tCENTIPEDEinstance\tVf\tVref\tValt")
+	f.write("chr\tregion_start\tregion_end\tSNP_position\tdsQTL_label\tCENTIPEDEinstance\tVf\tVref\tValt\n")
 	for inst in dsQTL_instances:
 		chrm = inst['chr']
 		region_start = inst['region'][0]
