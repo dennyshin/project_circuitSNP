@@ -74,7 +74,6 @@ for locus in loci:
 			dsQTL_instances.append(dsQTLinstance)
 			break
 
-i = 0
 for i in range(0, len(dsQTL_instances)):
 	region_motifs = [(motifidx, motifnames[motifidx]) for motifidx in np.nonzero(dsQTL_instances[i]['instance'])[0]]
 

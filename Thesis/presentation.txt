@@ -1,0 +1,48 @@
+circuitSNP: analysis of genetic variants on chromatin accessibility
+
+eQTL
+	- the gene expression level affects the phenotype
+chromatin accessibility
+	- TF binding initiates gene expression
+	- TF binding is dependent on chromatin accessibility
+	- non-coding variants affect binding behaviour of TFs (centiSNP)
+	- EMPHASIS: NOT A BINARY OPEN/CLOSE BEHAVIOUR (although we define it as such later)
+		- "open" is 20 time effect difference caused by SNP
+
+can we model the accessibility of chromatin using TF motif footprints?
+	- without the need of expression data
+	- our attempt is to use NN
+	- i will explain in more detail later but the summary is we input a vector and recieve a probability vector of an answer
+
+overview diagram
+	- do not go into explaining details
+	- use it as a reference to go back to
+
+motif footprints: CENTIPEDE
+	- these footprints become the training instances for our model
+	- how its made
+	- X = motif footprint (binding / no binding)
+	- Y = tissue specific chromatin accessibility ("open" / "closed")
+	
+overview diagram progress
+
+variant instances: centiSNP
+	- How we create new variant effect instances
+	- where we are on overall diagram
+	
+verification of predictions
+	- use dsQTL data
+	
+more detail???
+	
+Results
+	- model selection
+	- variant instances are sparse
+	- dsQTL verification results are inconclusive
+		- need to revisit our generation of variant instances
+		- are we training the wrong pattern?
+		- better regions
+			- will improve represenation of variant instances
+Summary
+
+Concluding Remarks
