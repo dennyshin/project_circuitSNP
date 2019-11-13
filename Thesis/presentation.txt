@@ -43,6 +43,8 @@ Results
 		- are we training the wrong pattern?
 		- better regions
 			- will improve represenation of variant instances
+			
 Summary
 
 Concluding Remarks
+

@@ -4,10 +4,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-import matplotlib
-matplotlib.use("agg")
-import matplotlib.pyplot as plt
-
 # load data
 instances = {'chr': [], 'region': [], 'SNP_pos': [], 'Vf': [], 'Vref': [], 'Valt': [], 'dsQTL_label': []}
 with open('data/dsQTL_instances.txt', 'r') as f:
@@ -58,11 +54,6 @@ class Net(nn.Module):
 		self.fc1 = nn.Linear(input_dim, 32)
 		self.fc2 = nn.Linear(32, 32)
 		self.fc3 = nn.Linear(32, 2)
-
-		# these are still random for each new model we create
-		nn.init.xavier_uniform_(self.fc1.weight) 
-		nn.init.xavier_uniform_(self.fc2.weight)
-		nn.init.xavier_uniform_(self.fc3.weight)
 
 	def forward(self, x):
 		x = F.relu(self.fc1(x))
