@@ -1,1 +1,0 @@
-min val loss = 0.257124	 at epoch 4534

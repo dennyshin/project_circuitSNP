@@ -117,14 +117,13 @@ for i in range(0, len(dsQTL_instances)):
 					centiSNP_pos = int(centiSNPinfo[1])
 					if SNPpos == centiSNP_pos:
 						effect = int(centiSNPinfo[10])
-						# is a centiSNP
-						if effect == 2:
+						if effect == 2: # is a centiSNP
 							ref_priorlodds = float(centiSNPinfo[6])
 							alt_priorlodds = float(centiSNPinfo[7])
 							if ref_priorlodds - alt_priorlodds > 0:
 								Vref[motifidx] = 1
 								Valt[motifidx] = 0
-							elif ref_priorlodds - alt_priorlodds < 0 :
+							elif ref_priorlodds - alt_priorlodds < 0:
 								Vref[motifidx] = 0
 								Valt[motifidx] = 1
 	dsQTL_instances[i]['Vref'] = Vref

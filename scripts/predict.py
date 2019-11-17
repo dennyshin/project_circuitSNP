@@ -27,32 +27,16 @@ class Net(nn.Module):
 		super().__init__()
 		self.fc1 = nn.Linear(input_dim, 5)
 		self.fc2 = nn.Linear(5, 5)
-		self.fc3 = nn.Linear(5, 5)
-		self.fc4 = nn.Linear(5, 5)
-		self.fc5 = nn.Linear(5, 5)
-		self.fc6 = nn.Linear(5, 5)
-		self.fc7 = nn.Linear(5, 5)
-		self.fc8 = nn.Linear(5, 5)
-		self.fc9 = nn.Linear(5, 5)
-		self.fc10 = nn.Linear(5, 5)
-		self.fc11 = nn.Linear(5, 2)
+		self.fc3 = nn.Linear(5, 2)
 
 	def forward(self, x):
 		x = F.relu(self.fc1(x))
 		x = F.relu(self.fc2(x))
-		x = F.relu(self.fc3(x))
-		x = F.relu(self.fc4(x))
-		x = F.relu(self.fc5(x))
-		x = F.relu(self.fc6(x))
-		x = F.relu(self.fc7(x))
-		x = F.relu(self.fc8(x))
-		x = F.relu(self.fc9(x))
-		x = F.relu(self.fc10(x))
 		# do not put relu on the last layer!
-		return F.softmax(self.fc11(x), dim=1)
+		return F.softmax(self.fc3(x), dim=1)
 
 # load model
-model = torch.load("finished_models/model7C.pt").to(device)
+model = torch.load("finished_models/model.pt").to(device)
 
 print("model loaded")
 
@@ -134,16 +118,17 @@ def plot_ROCcurve(FPR, sensitivity, imgpath):
 	# ax.legend()
 	fig.savefig(imgpath)
 
-plot_PRcurve(recall, precision, 'imgs/model7C_PRcurve.png')
-plot_ROCcurve(FPR, recall, 'imgs/model7C_ROCcurve.png')
+plot_PRcurve(recall, precision, 'imgs/model_PRcurve.png')
+plot_ROCcurve(FPR, recall, 'imgs/model_ROCcurve.png')
 
 print("saving metics...")
 
 # save metrics
-with open('results/predict7C.txt', 'w') as f:
+with open('results/predict.txt', 'w') as f:
 	f.write("test_loss: %f\n" % test_loss.numpy())
 	f.write("auPRC: %f\n" % auPRC)
 	f.write("auROC: %f\n" % auROC)
 	f.write("thresholds, precision, recall, specificity, FPR\n")
 	for i in range(0,len(thresholds)):
 		f.write("%f\t%f\t%f\t%f\t%f\n" % (thresholds[i], precision[i], recall[i], specificity[i], FPR[i]))
+

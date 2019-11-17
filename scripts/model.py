@@ -28,12 +28,12 @@ device = torch.device("cpu")
 class Net(nn.Module):
 	def __init__(self, input_dim):
 		super().__init__()
-		self.fc1 = nn.Linear(input_dim, 32)
-		self.fc2 = nn.Linear(32, 32)
-		self.fc3 = nn.Linear(32, 2)
+		self.fc1 = nn.Linear(input_dim, 5)
+		self.fc2 = nn.Linear(5, 5)
+		self.fc3 = nn.Linear(5, 2)
 
 		# these are still random for each new model we create
-		nn.init.xavier_uniform_(self.fc1.weight) 
+		nn.init.xavier_uniform_(self.fc1.weight)
 		nn.init.xavier_uniform_(self.fc2.weight)
 		nn.init.xavier_uniform_(self.fc3.weight)
 
@@ -87,10 +87,8 @@ for epoch in epochs:
 	# save model with lowest validation loss
 	if loss < min_val_loss:
 		min_val_loss = loss
-		torch.save(model, "trained_models/model7D.pt")
+		torch.save(model, "trained_models/model.pt")
 		opt_epoch = epoch
-	elif loss >= min_val_loss + 0.1:
-		break
 
 # plot loss
 def plot_loss(training_loss, validation_loss):
@@ -99,12 +97,12 @@ def plot_loss(training_loss, validation_loss):
 	ax.plot(epochs, validation_loss, "g", label = "validation loss")
 	ax.set_title("model loss")
 	ax.legend()
-	fig.savefig('imgs/model7D.png')
+	fig.savefig('imgs/model.png')
 
 plot_loss(train_loss, val_loss)
 
 # save loss
-with open('trained_models/model7D_opt.txt', 'w') as f:
+with open('trained_models/model_opt.txt', 'w') as f:
 	f.write("min val loss = %f\t at epoch %i" % (min_val_loss, opt_epoch))
-np.savetxt('trained_models/model7D_trainloss.txt', train_loss, fmt='%f')
-np.savetxt('trained_models/model7D_valloss.txt', val_loss, fmt='%f')
+np.savetxt('trained_models/model_trainloss.txt', train_loss, fmt='%f')
+np.savetxt('trained_models/model_valloss.txt', val_loss, fmt='%f')

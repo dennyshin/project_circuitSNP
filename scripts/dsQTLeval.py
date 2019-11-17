@@ -62,10 +62,10 @@ class Net(nn.Module):
 		return F.softmax(self.fc3(x), dim=1)
 
 # load model
-model = torch.load("finished_models/model7D.pt").to(device)
+model = torch.load("finished_models/model.pt").to(device)
 
 # optimum threshold
-with open('results/predict7D.txt', 'r') as f:
+with open('results/predict.txt', 'r') as f:
 	test_loss = f.readline()
 	auPRC = f.readline()
 	auROC = f.readline()
