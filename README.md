@@ -52,13 +52,13 @@ The following metrics are calculated: precision, recall, specificity and FPR. Th
 
 ## dsQTL data preparation and analysis
 
-With a fully trained and defined model, dsQTLprep.py and dsQTLeval.py can perform the variant effect analysis on a desired set of data. New instances would be generated and saved. Finally, the model's variant instance predictions will be saved and it will also report a "isdsQTL" indicating 1 if it is predicted to be and "0" otherwise. Note that if isdsQTL = 1, this means that the model has predicted that the SNP is a circuitSNP.
+With a fully trained and defined model, dsQTLprep.py and dsQTLeval.py can perform the variant effect analysis on a desired set of data. New instances would be generated and saved. Finally, the model's variant instance predictions will be saved and it will also report a "isdsQTL" indicating "1" if it is predicted to be and "0" otherwise. Note that if isdsQTL = 1, this means that the model has predicted that the SNP is a circuitSNP.
 
 #### dsQTLprep.py
 
-
+dsQTLprep.py generates the pair of variant instances. As long as the appropriate region, motif, training instances and dsQTL label files are given, the script is fairly autonomous. It will generate a single file at the end that can be parsed into dsQTLeval.py for the final analysis
 
 #### dsQTLeval.py
 
-
+dsQTLeval.py is fairly strict in use case. There is not much to customise other than the file directories. As long as the file outputted by dsQTLprep.py and the path to the saved model is given, the script takes care of the predictions. The final outputs are saved and can be evaluated in the results/ directory.
 
