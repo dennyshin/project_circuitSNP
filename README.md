@@ -4,7 +4,7 @@ Project circuitSNP was made as part of an ongoing research project. While the pr
 
 ### dataprep.py
 
-This script's main function is to generate the training instances and also split the dataset into three parts: train set, validation set, test set.
+This script's main function is to generate the training instances and also split the dataset into three parts: train set, validation set, test set. By default each set contains 70%, 20% and 10% of the original dataset respectively. 
 
 ### model.py
 
